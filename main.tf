@@ -29,13 +29,13 @@ resource "aws_iam_role_policy" "secrets_access_policy" {
 }
 
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2_profile"
+  name = "ec2_profile1"
   role = aws_iam_role.ec2_secrets_role.name
 }
 
 # Create Secret in Secrets Manager
 resource "aws_secretsmanager_secret" "db_secret" {
-  name = "aurora-db-secret-first1"
+  name = "aurora-db-secret-first2"
 }
 
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
