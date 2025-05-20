@@ -49,7 +49,7 @@ jobs:
         run: terraform validate 
 
       - name: Terraform plan
-        run: terraform -chdir=terraform1 plan -out=tfplan.binary
+        run: terraform -chdir=terraform1 plan
 
       #- name: Convert Plan to JSON
        # run: terraform show -json tfplan.binary > tfplan.json
@@ -76,4 +76,4 @@ jobs:
      
           
       - name: Terraform Apply
-        run: terraform -chdir=terraform apply tfplan.binary
+        run: terraform -chdir=terraform apply -auto-approve
