@@ -35,7 +35,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 
 # Create Secret in Secrets Manager
 resource "aws_secretsmanager_secret" "db_secret" {
-  name = "aurora-db-secret-first"
+  name = "aurora-db-secret-first1"
 }
 
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
@@ -48,7 +48,7 @@ resource "aws_secretsmanager_secret_version" "db_secret_version" {
 
 # Aurora Cluster and Instance
 resource "aws_rds_cluster" "aurora" {
-  cluster_identifier      = "aurora-cluster"
+  cluster_identifier      = "aurora-cluster1"
   engine                  = "aurora-mysql"
   master_username         = var.db_username
   master_password         = var.db_password
