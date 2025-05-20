@@ -48,7 +48,7 @@ resource "aws_secretsmanager_secret_version" "db_secret_version" {
 
 # Aurora Cluster and Instance
 resource "aws_rds_cluster" "aurora" {
-  cluster_identifier      = "aurora-cluster1"
+  cluster_identifier      = "aurora-cluster2"
   engine                  = "aurora-mysql"
   master_username         = var.db_username
   master_password         = var.db_password
@@ -58,14 +58,14 @@ resource "aws_rds_cluster" "aurora" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {
-  identifier              = "aurora-instance-1"
+  identifier              = "aurora-instance-2"
   cluster_identifier      = aws_rds_cluster.aurora.id
   instance_class          = "db.t3.medium"
   engine                  = aws_rds_cluster.aurora.engine
 }
 
 resource "aws_db_subnet_group" "default" {
-  name       = "aurora-subnet-group"
+  name       = "aurora-subnet-group1"
   subnet_ids = [
     var.subnet_id_1,
     var.subnet_id_2
@@ -73,7 +73,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 # EC2 Instance with App
-resource "aws_instance" "app_ec2" {
+resource "aws_instance" "web_ec2" {
   ami                         = "ami-084568db4383264d4"
   instance_type               = "t2.micro"
   subnet_id                   = var.ec2_subnet_id
@@ -85,6 +85,6 @@ resource "aws_instance" "app_ec2" {
   user_data = file("user_data.sh")
 
   tags = {
-    Name = "AppEC2"
+    Name = "WebEC2"
   }
 }
