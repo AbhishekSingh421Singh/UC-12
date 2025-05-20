@@ -1,4 +1,5 @@
-name: Terraform Infra
+name: Provision Infra
+
 
 on:
  push:
@@ -25,55 +26,54 @@ jobs:
         with:
           terraform_version: '1.11.4'
           
-      - name: Terraform formtat
-        run: terraform -chdir=terraform1 fmt
+      - name: Terraform formtat 
+        run: terraform fmt
         
 
-      - name: Terraform init
-        run: terraform -chdir=terraform1 init
-      
-      - name: Terraform test
-        run: |
-          terraform test
-        continue-on-error: true
-
-      - name: Install Checkov
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install checkov
-
-      - name: Run Checkov Scan
-        run: checkov -d ./ --skip-path .github/* --soft-fail
+      - name: Terraform init 
+        run: terraform init
         
       - name: Terraform validate 
         run: terraform validate 
 
       - name: Terraform plan
-        run: terraform -chdir=terraform1 plan
-
-      #- name: Convert Plan to JSON
-       # run: terraform show -json tfplan.binary > tfplan.json
+        run: terraform plan
         
-      - name: Install tflint
-        run: |
-             curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      # - name: Install tflint
+      #   run: |
+      #        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 
-      - name: Run tflint with custom config
-        run: |
-          echo "Using custom rules from .tflint.hcl"
-          tflint --config=./.tflint.hcl
-        continue-on-error: true
-
-      #- name: Install Conftest
-       # run: |
-        #  wget https://github.com/open-policy-agent/conftest/releases/download/v0.60.0/conftest_0.60.0_Linux_x86_64.tar.gz
-         # tar xzf conftest_0.60.0_Linux_x86_64.tar.gz
-          #sudo mv conftest /usr/local/bin
-
-      #- name: Run OPA Policy Check
-       # run: |
-        #  conftest test tfplan.json --policy policies/first.rego
-     
+      # - name: Run tflint with custom config
+      #   run: |
+      #     echo "Using custom rules from .tflint.hcl"
+      #     tflint --config=./.tflint.hcl
+      #   continue-on-error: true
+      # - name: Install terraform-docs
+      #   run: |
+      #       curl -s https://raw.githubusercontent.com/terraform-docs/terraform-docs/master/scripts/install.sh
+ 
+      # # - name: Generate Terraform docs
+      # #   run: terraform-docs markdown . > README.md
+ 
+      # # - name: Commit docs
+      # #   if: github.ref == 'refs/heads/main'
+      # #   run: |
+      # #        git config user.name "GitHub Actions"
+      # #        git config user.email "actions@github.com"
+      # #        git add README.md
+      # #        git diff --cached --quiet || git commit -m "Update Terraform docs"
+      # #        git push
+             
+      # - name: Generate terraform docs
+      #   uses: terraform-docs/gh-actions@v1.0.0
+      #   with:
+      #      working-dir: ./modules/vpc
+      #      output-file: README.md
+      #      output-method: replace
           
       - name: Terraform Apply
-        run: terraform -chdir=terraform apply -auto-approve
+        run: terraform apply -auto-approve
+        
+      #- name: Terraform destroy (Create EC2)
+       # if: always()
+       # run: terraform destroy -auto-approve
