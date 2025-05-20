@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 resource "aws_secretsmanager_secret" "aurora_secret" {
   name = "aurora-db-credentials"
 }
