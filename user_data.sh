@@ -22,7 +22,7 @@ def index():
     secret = get_secret()
     try:
         conn = pymysql.connect(
-            host='${aws_rds_cluster.aurora.endpoint}',
+            host='aurora-cluster.cluster-cbycmes2sxca.us-east-1.rds.amazonaws.com',
             user=secret['username'],
             password=secret['password'],
             database='sampledb'
