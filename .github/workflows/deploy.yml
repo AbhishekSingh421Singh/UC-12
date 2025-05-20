@@ -1,4 +1,4 @@
-name: Terraform Infra
+name: Terraform Infra for AWS
 
 on:
  push:
